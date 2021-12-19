@@ -23,7 +23,7 @@ const getTask = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
-  if (validationResult(req)) return res.status(400).json(validationResult(req));
+  if (validationResult(req).length > 0) return res.status(400).json(validationResult(req));
   
   try {
     const { title, content, end, photoUrl } = req.body;
@@ -51,7 +51,7 @@ const deleteTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
-  if (validationResult(req)) return res.status(400).json(validationResult(req));
+  if (validationResult(req).length > 0) return res.status(400).json(validationResult(req));
   try {
     const id = req.params.id;
     const { title, content, end, photoUrl } = req.body;

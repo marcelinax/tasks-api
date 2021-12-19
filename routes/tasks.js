@@ -9,7 +9,7 @@ router.post('/',
     check('title').not().isEmpty().withMessage('Enter a title'),
     check('content').not().isEmpty().withMessage('Enter a content'),
     check('end').isISO8601(),
-    check('photoUrl').optional().isURL().withMessage('Enter valid url'),
+    check('photoUrl').optional({checkFalsy: true}).isURL().withMessage('Enter valid url'),
     taskController.createTask);
 
 router.get('/:id', taskController.getTask)
@@ -20,7 +20,7 @@ router.put('/:id',
     check('title').not().isEmpty().withMessage('Enter a title'),
     check('content').not().isEmpty().withMessage('Enter a content'),
     check('end').isISO8601(),
-    check('photoUrl').optional().isURL().withMessage('Enter valid url')
+    check('photoUrl').optional({checkFalsy: true}).isURL().withMessage('Enter valid url')
 , taskController.updateTask)
 
 router.post('/toggle/:id', taskController.toggleTaskStatus)
