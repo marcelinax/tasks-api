@@ -1,6 +1,7 @@
 const Task = require("../models/Task");
 const tasksService = require("../services/tasks.service");
 const messages = require("../messages");
+const { validationResult } = require("express-validator");
 
 const getAllTasks = async (req, res) => {
   try {
@@ -22,12 +23,13 @@ const getTask = async (req, res) => {
 };
 
 const createTask = async (req, res) => {
+  if (validationResult(req)) return res.status(400).json(validationResult(req));
+  
   try {
-    const { title, content, start, end, photoUrl } = req.body;
+    const { title, content, end, photoUrl } = req.body;
     const newTask = await tasksService.createTask({
       title,
       content,
-      start,
       end,
       photoUrl,
     });
@@ -49,13 +51,13 @@ const deleteTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
+  if (validationResult(req)) return res.status(400).json(validationResult(req));
   try {
     const id = req.params.id;
-    const { title, content, start, end, photoUrl } = req.body;
+    const { title, content, end, photoUrl } = req.body;
     const updatedTask = await tasksService.updateTask(id, {
       title,
       content,
-      start,
       end,
       photoUrl,
     });
@@ -76,7 +78,7 @@ const toggleTaskStatus = async (req, res) => {
 };
 
 const searchTasks = async (req, res) => {
-  const { query, finished, start, end } = req.body;
+  const { query, finished, end } = req.body;
   res.json(await tasksService.searchTasks(query, finished, start, end));
 };
 

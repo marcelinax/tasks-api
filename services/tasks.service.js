@@ -34,7 +34,7 @@ const toggleTaskStatus = async (taskId) => {
   return taskToChange;
 };
 
-const searchTasks = async (query, finished, start, end) => {
+const searchTasks = async (query, finished, end) => {
   let searchingTasks = await Task.find().lean();
   
   if (query) {
@@ -42,10 +42,6 @@ const searchTasks = async (query, finished, start, end) => {
           task.title.includes(query) ||
           task.content.includes(query)
       )
-  }
-
-  if (start) {
-      searchingTasks = searchingTasks.filter(task => moment(task.start) >= moment(start))
   }
 
   if (end) {
