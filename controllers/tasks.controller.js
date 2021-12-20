@@ -84,6 +84,7 @@ const searchTasks = async (req, res) => {
 
 const deleteAllFinishedTasks = async (req, res) => {
   try {
+    await tasksService.deleteAllFinishedTasks()
     res.status(201).json({message: messages.DELETED_ALL_FINISHED_TASKS})
   } catch (error) {
     res.status(500).json({ message: error.message });
