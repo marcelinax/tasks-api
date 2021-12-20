@@ -78,8 +78,8 @@ const toggleTaskStatus = async (req, res) => {
 };
 
 const searchTasks = async (req, res) => {
-  const { query, finished, end } = req.body;
-  res.json(await tasksService.searchTasks(query, finished, start, end));
+  const { query, finished, end,sortBy, sortHow } = req.body;
+  res.json(await tasksService.searchTasks(query, finished, end,sortBy, sortHow));
 };
 
 const deleteAllFinishedTasks = async (req, res) => {

@@ -34,9 +34,17 @@ const toggleTaskStatus = async (taskId) => {
   return taskToChange;
 };
 
-const searchTasks = async (query, finished, end) => {
+const searchTasks = async (query, finished, end, sortBy, sortHow) => {
   let searchingTasks = await Task.find().lean();
   
+  if (sortBy === 'createdAt') {
+    if (sortHow === 'the latest') {
+      searchingTasks = searchingTasks.sort((a,b) => b.createdAt - a.createdAt)
+    }
+    if(sortHow === 'the oldest') searchingTasks = searchingTasks.sort((a,b) => a.createdAt - b.createdAt)
+    
+  }
+
   if (query) {
       searchingTasks = searchingTasks.filter(task =>
           task.title.includes(query) ||
@@ -48,7 +56,7 @@ const searchTasks = async (query, finished, end) => {
       searchingTasks = searchingTasks.filter(task =>  moment(task.end) <= moment(end))
   }
 
-  if (finished !== undefined) {
+  if (finished !== null && finished !== undefined) {
     searchingTasks = searchingTasks.filter(task => task.finished === finished);
   }
 
